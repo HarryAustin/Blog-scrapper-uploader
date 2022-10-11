@@ -2,11 +2,13 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const Queue = require("bull");
 
+const { UploaderQueue } = require("./uploader");
+
 const ScrapperQueue = new Queue("scrape_blog");
 
 ScrapperQueue.process(async (job) => {
   try {
-    const data = job.data.data;
+    const { data, userId } = job.data;
 
     let promises = [];
     let blogOpts = [];
@@ -18,12 +20,15 @@ ScrapperQueue.process(async (job) => {
 
     const articlesResponse = await Promise.all(promises);
 
-    let blogObjs = [];
+    let blogArticleObjs = [];
 
     articlesResponse.forEach(({ data }, index) => {
       const htmlPage = data;
 
       const $ = cheerio.load(htmlPage);
+
+      // remove not needed
+      $("div .single_post_info").remove();
 
       const title = $("h1.blog-post_title", htmlPage).text();
       const content = $("article .blog-post_content", htmlPage).html();
@@ -37,8 +42,12 @@ ScrapperQueue.process(async (job) => {
         publishStatus: "public",
       };
 
-      blogObjs.push(dataObj);
+      blogArticleObjs.push(dataObj);
     });
+
+    UploaderQueue.add({ userId, blogArticleObjs }, { removeOnComplete: true });
+
+    // pass to uploader queue
   } catch (err) {
     console.log(err.message);
   }

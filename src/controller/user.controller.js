@@ -44,8 +44,10 @@ exports.getUserId = async (req, res) => {
   }
 };
 
-exports.scrapeAndUpload = (req, res) => {
+exports.scrapeAndUpload = async (req, res) => {
   try {
+    // incase of no id
+    const userId = req.params.id || (await redis.get("medium:userId"));
     const { data } = req.body;
 
     // get the url, text and tags. and reform the tags to its proper format.
@@ -61,7 +63,10 @@ exports.scrapeAndUpload = (req, res) => {
       return { url, text, tags: reformedTags };
     });
 
-    ScrapperQueue.add({ data: reformedData }, { removeOnComplete: true });
+    ScrapperQueue.add(
+      { data: reformedData, userId },
+      { removeOnComplete: true }
+    );
 
     res.send("hello");
   } catch (err) {
