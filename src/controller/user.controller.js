@@ -1,6 +1,6 @@
-// const fetch = require("node-fetch");
 const axios = require("axios");
 const redis = require("../../config/redis");
+const { ScrapperQueue } = require("../queue/scrapper");
 
 const API_KEY = process.env.MEDIUM_API_KEY;
 const BASE_ROOT = "https://api.medium.com/v1/me";
@@ -39,6 +39,31 @@ exports.getUserId = async (req, res) => {
       msg: "user id retrieved",
       data: { user: userId },
     });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+exports.scrapeAndUpload = (req, res) => {
+  try {
+    const { data } = req.body;
+
+    // get the url, text and tags. and reform the tags to its proper format.
+
+    const reformedData = data.map(({ url, text = "", tags = [] }) => {
+      const reformedTags =
+        tags.length > 0
+          ? tags.split(",").map((tag) => {
+              return tag.trim();
+            })
+          : tags;
+
+      return { url, text, tags: reformedTags };
+    });
+
+    ScrapperQueue.add({ data: reformedData }, { removeOnComplete: true });
+
+    res.send("hello");
   } catch (err) {
     console.log(err.message);
   }

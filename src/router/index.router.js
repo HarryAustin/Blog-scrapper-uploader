@@ -6,6 +6,7 @@ const UserController = require("../controller/user.controller");
 
 const userRouter = () => {
   router.get("/id", UserController.getUserId);
+  router.post("/:id/upload", UserController.scrapeAndUpload);
   return router;
 };
 
