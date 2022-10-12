@@ -30,8 +30,6 @@ UploaderQueue.process(async (job) => {
     });
 
     await Promise.all(promises);
-
-    console.log("success");
   } catch (err) {
     console.log(err.message);
   }

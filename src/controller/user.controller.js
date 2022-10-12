@@ -8,16 +8,14 @@ const BASE_ROOT = "https://api.medium.com/v1/me";
 exports.getUserId = async (req, res) => {
   try {
     const tokenExists = await redis.exists("medium:userId");
+
     if (tokenExists) {
       const token = await redis.get("medium:userId");
-      return (
-        token &&
-        res.json({
-          status: 200,
-          msg: "user id retrieved",
-          data: { user: token },
-        })
-      );
+      return res.json({
+        status: 200,
+        msg: "user id retrieved",
+        data: { user: token },
+      });
     }
 
     const options = {
@@ -40,7 +38,7 @@ exports.getUserId = async (req, res) => {
       data: { user: userId },
     });
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
   }
 };
 
@@ -68,7 +66,7 @@ exports.scrapeAndUpload = async (req, res) => {
       { removeOnComplete: true }
     );
 
-    res.send("hello");
+    res.send("sent");
   } catch (err) {
     console.log(err.message);
   }
