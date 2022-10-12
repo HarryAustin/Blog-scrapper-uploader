@@ -13,9 +13,9 @@ ScrapperQueue.process(async (job) => {
     let promises = [];
     let blogOpts = [];
 
-    data.forEach(async ({ url, tags }) => {
+    data.forEach(async ({ url, tags, text }) => {
       promises.push(axios.get(url));
-      blogOpts.push({ url, tags });
+      blogOpts.push({ url, tags, text });
     });
 
     const articlesResponse = await Promise.all(promises);
@@ -28,10 +28,16 @@ ScrapperQueue.process(async (job) => {
       const $ = cheerio.load(htmlPage);
 
       // remove not needed
-      $("div .single_post_info").remove();
+      const contentRawHtml = $("article .blog-post_content", htmlPage);
+      contentRawHtml.find("div.single_post_info").remove();
+      contentRawHtml.find(".post_info-divider").remove();
+      contentRawHtml.find(".clear").remove();
 
+      const addedText = blogOpts[index].text;
       const title = $("h1.blog-post_title", htmlPage).text();
-      const content = $("article .blog-post_content", htmlPage).html();
+      const content = `<h1 class="pw-post-title">${title}</h1>${contentRawHtml.html()}<p class="pw-post-body-paragraph">${
+        addedText && addedText.length ? addedText : ""
+      }</p>`;
 
       const dataObj = {
         title,
