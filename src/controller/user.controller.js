@@ -50,13 +50,13 @@ exports.scrapeAndUpload = async (req, res) => {
 
     // get the url, text and tags. and reform the tags to its proper format.
 
-    const reformedData = data.map(({ url, text = "", tags = [] }) => {
+    const reformedData = data.map(({ url, text, tags }) => {
       const reformedTags =
         tags.length > 0
           ? tags.split(",").map((tag) => {
               return tag.trim();
             })
-          : tags;
+          : [];
 
       return { url, text, tags: reformedTags };
     });
@@ -68,6 +68,7 @@ exports.scrapeAndUpload = async (req, res) => {
 
     res.send("sent");
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
+    // console.log(err.message);
   }
 };
