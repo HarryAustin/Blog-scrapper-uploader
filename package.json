@@ -4,7 +4,11 @@
   "description": "an automated way to scrape sites and upload to medium",
   "main": "./src/index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "start:build": "npm run install-client && npm run build",
+    "start": "cross-env NODE_ENV=production node index"
   },
   "author": "Harrison Osagiede",
   "license": "MIT",
@@ -24,6 +28,7 @@
     "redis": "^3.0.2"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "nodemon": "^2.0.7"
   }
 }
