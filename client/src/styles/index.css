@@ -1,0 +1,65 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* fonts */
+@font-face{
+  font-family:customBlack;
+  src:url("../fonts/FreightSansProBlack-Regular.ttf")
+}
+
+@font-face{
+  font-family:customBold;
+  src:url("../fonts/FreightSansProBold-Regular.ttf")
+}
+
+@font-face{
+  font-family:customLight;
+  src:url("../fonts/FreightSansProLight-Regular.ttf")
+}
+
+@font-face{
+  font-family:customMedium;
+  src:url("../fonts/FreightSansProMedium-Regular.ttf")
+}
+
+@font-face{
+  font-family:customSemiBold;
+  src:url("../fonts/FreightSansProSemibold-Regular.ttf")
+}
+
+/* colors, e.t.c */
+:root {
+  --background-color: rgb(9, 160, 21, 0.05);
+  --main-color: rgb(9, 160, 21);
+  --dark-color: rgb(2, 34, 4);
+  --grey-color: rgba(2, 34, 4, 0.6)
+}
+
+
+
+body {
+  width: 90%;
+  margin: auto;
+  font-size: 10px;
+  font-family: customMedium !important;
+  background: var(--background-color);
+  color: var(--dark-color);
+  overflow-y: scroll;
+  height: 100%;
+}
+
+
+.App {
+  padding: 0rem 0rem 3rem 0rem;
+}
+
+
+@media screen and (min-width:1200px) {
+  .App {
+    width: 40%;
+    margin: auto;
+  }
+}
