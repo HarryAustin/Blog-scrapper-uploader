@@ -2,7 +2,8 @@ require("dotenv").config();
 const axios = require("axios");
 const Queue = require("bull");
 
-const UploaderQueue = new Queue("upload_to_medium");
+const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
+const UploaderQueue = new Queue("upload_to_medium", REDIS_URL);
 
 UploaderQueue.process(async (job) => {
   try {

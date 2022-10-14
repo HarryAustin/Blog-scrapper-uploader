@@ -1,10 +1,12 @@
+require("dotenv").config();
 const axios = require("axios");
 const cheerio = require("cheerio");
 const Queue = require("bull");
 
 const { UploaderQueue } = require("./uploader");
 
-const ScrapperQueue = new Queue("scrape_blog");
+const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
+const ScrapperQueue = new Queue("scrape_blog", REDIS_URL);
 
 ScrapperQueue.process(async (job) => {
   try {
