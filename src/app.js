@@ -11,12 +11,13 @@ app.use(express.json());
 // dynamic cors handler
 
 const developmentDomains = ["http://localhost:3000", "http://127.0.0.1:8000"];
-const prodDomains = [];
+const prodDomains = ["https://upload-blog.onrender.com"];
 
 const whiteList =
   process.env.NODE_ENV === "development" ? developmentDomains : prodDomains;
 const corsOption = {
   origin: (origin, callback) => {
+    console.log(origin);
     if (origin === undefined || whiteList.indexOf(origin) !== -1) {
       return callback(null, true);
     }

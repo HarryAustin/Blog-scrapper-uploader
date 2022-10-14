@@ -82,7 +82,7 @@ function App() {
                 />
               </div>
               <div className={AppStyles.form__field}>
-                <label for="url">url</label>
+                <label htmlFor="url">url</label>
                 <input
                   type="text"
                   name="url"
@@ -93,7 +93,7 @@ function App() {
                 />
               </div>
               <div className={AppStyles.form__field}>
-                <label for="tags">tags</label>
+                <label htmlFor="tags">tags</label>
                 <input
                   type="text"
                   name="tags"
@@ -104,7 +104,7 @@ function App() {
                 />
               </div>
               <div className={AppStyles.form__field}>
-                <label for="additionalText">texts</label>
+                <label htmlFor="additionalText">texts</label>
                 <input
                   type="text"
                   name="text"

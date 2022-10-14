@@ -68,7 +68,6 @@ exports.scrapeAndUpload = async (req, res) => {
 
     res.send("sent");
   } catch (err) {
-    console.log(err);
-    // console.log(err.message);
+    console.log(err.message);
   }
 };
