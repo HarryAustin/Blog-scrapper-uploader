@@ -2,7 +2,7 @@
   "name": "blogging-scrapper-blog",
   "version": "1.0.0",
   "description": "an automated way to scrape sites and upload to medium",
-  "main": "./src/index.js",
+  "main": "./index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "build": "cd client && npm run build",
