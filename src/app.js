@@ -17,10 +17,11 @@ const whiteList =
   process.env.NODE_ENV === "development" ? developmentDomains : prodDomains;
 const corsOption = {
   origin: (origin, callback) => {
-    console.log(origin);
     if (origin === undefined || whiteList.indexOf(origin) !== -1) {
       return callback(null, true);
     }
+    console.log(origin);
+    console.log("cors error>>", origin);
     return callback(new Error("Not allowed by CORS"));
   },
 };
